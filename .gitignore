@@ -1,0 +1,11 @@
+# Archivos de configuración de NetBeans
+/nbproject/private/
+/nbproject/Makefile-*.mk
+/nbproject/Package-*.bash
+/nbproject/Package-*.sh
+
+# Directorio de construcción
+/build/
+
+# Archivos de copia de seguridad
+*~
