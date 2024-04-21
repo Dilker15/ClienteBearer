@@ -5,6 +5,10 @@
  */
 package client.bearer.presentacion;
 
+import java.awt.Dimension;
+import javax.swing.*;
+import java.io.*;
+
 /**
  *
  * @author hp
@@ -14,11 +18,13 @@ public class panelInicio extends javax.swing.JPanel {
     /**
      * Creates new form panelInicio
      */
+    private String path;
     public panelInicio() {
         
         initComponents();
-        this.setSize(450,300);
+        this.setSize(450,450);       
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,30 +35,143 @@ public class panelInicio extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textsalida = new javax.swing.JTextArea();
+        btn_select = new javax.swing.JButton();
+        btn_procesar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        txt_ruta = new javax.swing.JLabel();
 
-        jLabel1.setText("INICIO PANEL");
+        textsalida.setEditable(false);
+        textsalida.setColumns(20);
+        textsalida.setRows(5);
+        jScrollPane1.setViewportView(textsalida);
+
+        btn_select.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        btn_select.setText("Selecione su proyecto aqui");
+        btn_select.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_selectActionPerformed(evt);
+            }
+        });
+
+        btn_procesar.setBackground(new java.awt.Color(204, 204, 204));
+        btn_procesar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btn_procesar.setText("Procesar");
+        btn_procesar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_procesarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel1.setText("Informacion de salida");
+
+        txt_ruta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txt_ruta.setText("ruta:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 23, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(255, 255, 255)
-                .addComponent(jLabel1)
-                .addContainerGap(207, Short.MAX_VALUE))
+                .addGap(69, 69, 69)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(btn_procesar, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(29, 29, 29))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(240, 240, 240)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(txt_ruta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_select)
+                .addGap(33, 33, 33)
+                .addComponent(btn_procesar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(226, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_selectActionPerformed
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setPreferredSize(new Dimension(800, 600));
+        
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);   
+        int seleccion = fileChooser.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            this.path = file.getAbsolutePath();
+            this.txt_ruta.setText(path);
+            //System.out.println("Carpeta seleccionada: " + file.getAbsolutePath());
+        }     
+    }//GEN-LAST:event_btn_selectActionPerformed
+    private void mostrar(String texto) {
+    String[] lineas = texto.split("\n");
+    StringBuilder sb = new StringBuilder();
+        int contadorPalabras = 0;
+        for (String linea : lineas) {
+            String[] palabras = linea.trim().split("\\s+"); // Dividir la línea en palabras
+            for (String palabra : palabras) {
+                sb.append(palabra).append(" ");
+                contadorPalabras++;
+                // Agregar un salto de línea cada 20 palabras
+                if (contadorPalabras % 20 == 0) {
+                    sb.append("\n");
+                }
+            }// Agregar un salto de línea al final de cada línea original        
+            sb.append("\n");
+        }
+        // Establecer el texto en el JTextArea, eliminando cualquier espacio extra al final
+        textsalida.setText(sb.toString().trim());
+    }
+
+    private void btn_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_procesarActionPerformed
+
+        /*==================== Leer ===================
+        En la variable Global "path " esta la direcion del proyecto selecionado 
+        y la funcion mostrar lo unico que hace es mostrar una cadena de texto cada 20 palabras
+        lo cuerta con un enter para que en el TextArea no se imprima en una sola linea
+        */
+        
+        String texto = "un componentes de la interfaz de usuario.\n" +
+                "\n" +
+                "Si por alguna razón no puedes editar initComponents() en NetBeans, aquí hay algunas posibles razones y soluciones:\n" +
+                "\n" +
+                "El archivo pertenece a una biblioteca o es de solo lectura: Si el archivo initComponents() pertenece a una biblioteca o a un componente externo, es posible que esté marcado como de solo lectura. En ese caso, no podrás editarlo directamente. Puedes buscar una opción para hacer una copia de este archivo en tu proyecto y luego editarlo.\n" +
+                "El formulario está bloqueado o protegido: A veces, los archivos generados por el diseñador de NetBeans pueden estar marcados como bloqueados o protegidos para evitar ediciones accidentales. En ese caso, busca una opción en NetBeans para desbloquear o desproteger el archivo.\n" +
+                "Problemas de permisos: Asegúrate de que tengas permisos de escritura en el archivo initComponents(). Si estás trabajando en un entorno compartido o en un sistema operativo que restringe permisos de archivo, es posible que necesites ajustar los permisos del archivo.\n" +
+                "NetBeans tiene errores o está desactualizado: En raras ocasiones, es posible que NetBeans tenga errores que causen problemas con la edición de archivos. Asegúrate de tener la última versión de NetBeans instalada y considera buscar en los foros de ayuda de NetBeans para ver si otros usuarios han experimentado problemas similares.\n" +
+                "Si ninguno de estos enfoques resuelve tu problema, por favor proporciona más detalles sobre tu situación específica para que pueda ofrecerte una solución más precisa.";
+        mostrar(texto);
+    }//GEN-LAST:event_btn_procesarActionPerformed
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_procesar;
+    private javax.swing.JButton btn_select;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea textsalida;
+    private javax.swing.JLabel txt_ruta;
     // End of variables declaration//GEN-END:variables
 }
