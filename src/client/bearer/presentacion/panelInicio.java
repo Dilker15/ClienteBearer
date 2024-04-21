@@ -8,6 +8,8 @@ package client.bearer.presentacion;
 import java.awt.Dimension;
 import javax.swing.*;
 import java.io.*;
+import java.util.LinkedList;
+import java.util.*;
 
 /**
  *
@@ -19,6 +21,7 @@ public class panelInicio extends javax.swing.JPanel {
      * Creates new form panelInicio
      */
     private String path;
+    
     public panelInicio() {
         
         initComponents();
@@ -143,6 +146,11 @@ public class panelInicio extends javax.swing.JPanel {
         // Establecer el texto en el JTextArea, eliminando cualquier espacio extra al final
         textsalida.setText(sb.toString().trim());
     }
+    
+    public void mostrarLinea(String texto){
+       textsalida.setText( texto);
+       
+    }
 
     private void btn_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_procesarActionPerformed
 
@@ -151,20 +159,59 @@ public class panelInicio extends javax.swing.JPanel {
         y la funcion mostrar lo unico que hace es mostrar una cadena de texto cada 20 palabras
         lo cuerta con un enter para que en el TextArea no se imprima en una sola linea
         */
-        
-        String texto = "un componentes de la interfaz de usuario.\n" +
-                "\n" +
-                "Si por alguna razón no puedes editar initComponents() en NetBeans, aquí hay algunas posibles razones y soluciones:\n" +
-                "\n" +
-                "El archivo pertenece a una biblioteca o es de solo lectura: Si el archivo initComponents() pertenece a una biblioteca o a un componente externo, es posible que esté marcado como de solo lectura. En ese caso, no podrás editarlo directamente. Puedes buscar una opción para hacer una copia de este archivo en tu proyecto y luego editarlo.\n" +
-                "El formulario está bloqueado o protegido: A veces, los archivos generados por el diseñador de NetBeans pueden estar marcados como bloqueados o protegidos para evitar ediciones accidentales. En ese caso, busca una opción en NetBeans para desbloquear o desproteger el archivo.\n" +
-                "Problemas de permisos: Asegúrate de que tengas permisos de escritura en el archivo initComponents(). Si estás trabajando en un entorno compartido o en un sistema operativo que restringe permisos de archivo, es posible que necesites ajustar los permisos del archivo.\n" +
-                "NetBeans tiene errores o está desactualizado: En raras ocasiones, es posible que NetBeans tenga errores que causen problemas con la edición de archivos. Asegúrate de tener la última versión de NetBeans instalada y considera buscar en los foros de ayuda de NetBeans para ver si otros usuarios han experimentado problemas similares.\n" +
-                "Si ninguno de estos enfoques resuelve tu problema, por favor proporciona más detalles sobre tu situación específica para que pueda ofrecerte una solución más precisa.";
-        mostrar(texto);
+        String output = "";
+        if(this.path !=null){
+            
+            try{
+                // se tienen que llenar con un for todos los comandos de conf q se agreguen
+                    List<String>lista = new LinkedList();
+                    lista.add("bearer");
+                    lista.add("scan");          // comando basicos para escanear 
+                    lista.add(this.path);
+                    output=this.escanearProyecto(lista);
+                    
+            }catch(Exception e){
+                
+                    System.out.print("El proyecto seleccionado no se encuentra contemplado para el uso de bearer" + e.getMessage());
+            }
+        }else{
+            output="Seleccion proyecto Para Analizar";
+        }
+         
+        mostrarResultado(output);
     }//GEN-LAST:event_btn_procesarActionPerformed
 
     
+    public void mostrarResultado(String cadena){
+        
+        String palabra = ("Security Report");
+        int indice = cadena.indexOf(palabra);
+        
+        String resultado="Reporte De Seguridad"+"\n";
+        if (indice != -1) {
+            resultado += cadena.substring(indice + palabra.length());
+            
+        }
+       textsalida.setText(resultado);
+    }
+    
+    
+    
+    public String escanearProyecto(List<String>lista)throws Exception{ // LISTA COMANDOS
+        ProcessBuilder pb = new ProcessBuilder(lista);  // AGREGAR MAS COMANDO A LA LISTA.
+        pb.redirectErrorStream(true);   
+        Process process = pb.start();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        String result="";
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+            result+=line+"\n";
+        }
+                    
+    return result;
+    
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_procesar;
