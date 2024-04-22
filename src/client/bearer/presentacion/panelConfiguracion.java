@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.io.File;
+import java.time.LocalDateTime;
 import javax.swing.JFileChooser;
 
 /**
@@ -39,6 +40,8 @@ public class panelConfiguracion extends javax.swing.JPanel {
      */
     
     
+    
+    
     private void selectDirectory() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setPreferredSize(new Dimension(800, 600));
@@ -50,7 +53,8 @@ public class panelConfiguracion extends javax.swing.JPanel {
             this.pathOfFile = file.getAbsolutePath();
             this.jTextField1.setText(pathOfFile);
             //System.out.println("Carpeta seleccionada: " + file.getAbsolutePath());
-        } 
+        }
+        updatecoman();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -63,15 +67,15 @@ public class panelConfiguracion extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
+        select_report = new javax.swing.JComboBox<>();
+        select_ouput = new javax.swing.JComboBox<>();
+        select_scan = new javax.swing.JComboBox<>();
+        cb1 = new javax.swing.JCheckBox();
+        cb5 = new javax.swing.JCheckBox();
+        cb2 = new javax.swing.JCheckBox();
+        cb3 = new javax.swing.JCheckBox();
+        cb6 = new javax.swing.JCheckBox();
+        cb4 = new javax.swing.JCheckBox();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
@@ -92,56 +96,76 @@ public class panelConfiguracion extends javax.swing.JPanel {
 
         jLabel6.setText("Limitar niveles de gravedad");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seguridad", "Privacidad", "Secretos" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        select_report.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seguridad", "Privacidad" }));
+        select_report.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                select_reportActionPerformed(evt);
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguna", "JSON", "CVS" }));
-        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+        select_ouput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguna", "JSON", "CVS" }));
+        select_ouput.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox2ItemStateChanged(evt);
+                select_ouputItemStateChanged(evt);
             }
         });
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        select_ouput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                select_ouputActionPerformed(evt);
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SAST", "Secreto" }));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        select_scan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SAST", "Secreto" }));
+        select_scan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                select_scanActionPerformed(evt);
             }
         });
 
-        jCheckBox1.setText("Sel. todo");
-        jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
+        cb1.setText("Sel. todo");
+        cb1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCheckBox1ItemStateChanged(evt);
+                cb1ItemStateChanged(evt);
             }
         });
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        cb1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                cb1ActionPerformed(evt);
             }
         });
 
-        jCheckBox2.setText("Medium");
-
-        jCheckBox3.setText("High");
-
-        jCheckBox4.setText("Warning");
-
-        jCheckBox5.setText("low");
-
-        jCheckBox6.setText("Critical");
-        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
+        cb5.setText("Medium");
+        cb5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox6ActionPerformed(evt);
+                cb5ActionPerformed(evt);
+            }
+        });
+
+        cb2.setText("High");
+        cb2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb2ActionPerformed(evt);
+            }
+        });
+
+        cb3.setText("Warning");
+        cb3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb3ActionPerformed(evt);
+            }
+        });
+
+        cb6.setText("low");
+        cb6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb6ActionPerformed(evt);
+            }
+        });
+
+        cb4.setText("Critical");
+        cb4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb4ActionPerformed(evt);
             }
         });
 
@@ -156,31 +180,31 @@ public class panelConfiguracion extends javax.swing.JPanel {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox6)
-                            .addComponent(jCheckBox1))
+                            .addComponent(cb4)
+                            .addComponent(cb1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox2))
+                            .addComponent(cb2)
+                            .addComponent(cb5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox5)
-                            .addComponent(jCheckBox4))
+                            .addComponent(cb6)
+                            .addComponent(cb3))
                         .addContainerGap(99, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(select_ouput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(select_scan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(select_report, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(125, 125, 125))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -189,15 +213,15 @@ public class panelConfiguracion extends javax.swing.JPanel {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(select_report, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(select_scan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(select_ouput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -206,14 +230,14 @@ public class panelConfiguracion extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox1))
+                            .addComponent(cb2)
+                            .addComponent(cb3)
+                            .addComponent(cb1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox5)
-                            .addComponent(jCheckBox6))
+                            .addComponent(cb5)
+                            .addComponent(cb6)
+                            .addComponent(cb4))
                         .addContainerGap())))
         );
 
@@ -260,54 +284,148 @@ public class panelConfiguracion extends javax.swing.JPanel {
         selectDirectory();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void select_reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_select_reportActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+         updatecoman();
+    }//GEN-LAST:event_select_reportActionPerformed
+    
+    private void updatecoman(){
+        
+        
+        String comando ="";
+        
+        String salida = this.jTextField1.getText();
+        
+        String itemSeleccionado = (String) select_report.getSelectedItem();
+        switch (itemSeleccionado) {
+            case "Seguridad":
+                comando += " --report security";
+                break;
+            case "Privacidad":
+                comando += " --report privacy";
+                break;
+            default:
+                comando += "";
+                break;
+        } 
+        itemSeleccionado = (String) select_scan.getSelectedItem();
+        switch (itemSeleccionado) {
+            case "SAST":
+                comando += " --scanner=sast";
+                break;
+            case "Secreto":
+                comando += " --scanner=secrets";
+                break;
+            default:
+                comando += "";
+                break;
+        }
+        
+        
+        if(cb1.isSelected() || cb2.isSelected()|| cb3.isSelected()|| cb4.isSelected()|| cb5.isSelected()|| cb6.isSelected()){
+        String select =" --severity ";
+        if(cb2.isSelected())
+            select += "high,";
+        if(cb3.isSelected())
+            select += "warning,";
+        if(cb4.isSelected())
+            select += "critical,";
+        if(cb5.isSelected())
+            select += "medium,";
+        if(cb6.isSelected())
+            select  += "low,";
+        comando += select.substring(0,select.length()-1);
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        itemSeleccionado = (String) select_ouput.getSelectedItem();
+        switch (itemSeleccionado) {
+            case "JSON":
+                comando += " --format json output --output "+salida+"/result-"+LocalDateTime.now()+".json";
+                break;
+            case "CVS":
+                comando += " --format cvs output "+salida+"/"+LocalDateTime.now()+".cvs";
+                break;
+            default:
+                comando += "";
+                break;
+        }  
+        
+        System.out.println("comando : " + comando);
+        
+    }
+    
+    private void select_scanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_select_scanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+        updatecoman();
+    }//GEN-LAST:event_select_scanActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void select_ouputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_select_ouputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+        updatecoman();
+    }//GEN-LAST:event_select_ouputActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void cb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+        updatecoman();
+    }//GEN-LAST:event_cb1ActionPerformed
 
-    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox6ActionPerformed
+    private void cb4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb4ActionPerformed
+        updatecoman();        // TODO add your handling code here:
+    }//GEN-LAST:event_cb4ActionPerformed
 
-    private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
+    private void cb1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb1ItemStateChanged
        boolean result = evt.getStateChange() == ItemEvent.SELECTED;
        
-       this.jCheckBox2.setSelected(result);
-       this.jCheckBox3.setSelected(result);
-       this.jCheckBox4.setSelected(result);
-       this.jCheckBox5.setSelected(result);
-       this.jCheckBox6.setSelected(result);
+       this.cb5.setSelected(result);
+       this.cb2.setSelected(result);
+       this.cb3.setSelected(result);
+       this.cb6.setSelected(result);
+       this.cb4.setSelected(result);
        
-    }//GEN-LAST:event_jCheckBox1ItemStateChanged
+    }//GEN-LAST:event_cb1ItemStateChanged
 
-    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+    private void select_ouputItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_select_ouputItemStateChanged
        String itemSelected = (String)evt.getItem();
        this.jButton1.setEnabled(itemSelected != NINGUNO);
-    }//GEN-LAST:event_jComboBox2ItemStateChanged
+    }//GEN-LAST:event_select_ouputItemStateChanged
+
+    private void cb2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb2ActionPerformed
+        // TODO add your handling code here:
+        updatecoman();
+    }//GEN-LAST:event_cb2ActionPerformed
+
+    private void cb5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb5ActionPerformed
+        // TODO add your handling code here: 
+        updatecoman();
+    }//GEN-LAST:event_cb5ActionPerformed
+
+    private void cb3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb3ActionPerformed
+       updatecoman(); // TODO add your handling code here:
+    }//GEN-LAST:event_cb3ActionPerformed
+
+    private void cb6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb6ActionPerformed
+        updatecoman();// TODO add your handling code here:
+    }//GEN-LAST:event_cb6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cb1;
+    private javax.swing.JCheckBox cb2;
+    private javax.swing.JCheckBox cb3;
+    private javax.swing.JCheckBox cb4;
+    private javax.swing.JCheckBox cb5;
+    private javax.swing.JCheckBox cb6;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -316,5 +434,8 @@ public class panelConfiguracion extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> select_ouput;
+    private javax.swing.JComboBox<String> select_report;
+    private javax.swing.JComboBox<String> select_scan;
     // End of variables declaration//GEN-END:variables
 }
