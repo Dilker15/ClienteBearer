@@ -27,6 +27,8 @@ public class Menu extends javax.swing.JFrame {
   
     panelConfiguracion config = new panelConfiguracion();
           panelInicio inicio = new panelInicio();
+         
+          
     public Menu() {
         initComponents();
       
@@ -142,14 +144,15 @@ public class Menu extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(40, 11, 1028, 720);
+        jPanel1.setBounds(40, 11, 1024, 716);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void inicioLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inicioLabelMouseClicked
-       
-             
+ 
+        inicio.comando_config = config.comando;
+        
           inicioLabel.setForeground(Color.BLUE);
           confiLabel.setForeground(Color.BLACK);
           

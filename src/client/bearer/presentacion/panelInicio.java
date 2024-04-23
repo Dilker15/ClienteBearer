@@ -21,6 +21,7 @@ public class panelInicio extends javax.swing.JPanel {
      * Creates new form panelInicio
      */
     private String path;
+    public String comando_config = "";
     
     public panelInicio() {
         
@@ -154,21 +155,25 @@ public class panelInicio extends javax.swing.JPanel {
 
     private void btn_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_procesarActionPerformed
 
-        /*==================== Leer ===================
-        En la variable Global "path " esta la direcion del proyecto selecionado 
-        y la funcion mostrar lo unico que hace es mostrar una cadena de texto cada 20 palabras
-        lo cuerta con un enter para que en el TextArea no se imprima en una sola linea
-        */
+       
         String output = "";
         if(this.path !=null){
             
             try{
                 // se tienen que llenar con un for todos los comandos de conf q se agreguen
+                // --report privacy --scanner=sast --severity low --format json output --output /home/ortiz/Documents/result-2024-04-22T14:38:17.003800710.json
                     List<String>lista = new LinkedList();
                     lista.add("bearer");
                     lista.add("scan");          // comando basicos para escanear 
                     lista.add(this.path);
+                    
+                    String[] partes = comando_config.split("\\s+");
+                    for (String parte : partes) {
+                        lista.add(parte);
+                    }
+                   
                     output=this.escanearProyecto(lista);
+                    
                     
             }catch(Exception e){
                 
