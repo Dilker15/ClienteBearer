@@ -23,6 +23,7 @@ public class panelConfiguracion extends javax.swing.JPanel {
      */
     public static final String NINGUNO = "Ninguna";
     public String pathOfFile;
+    public String comando = "";
     
     public panelConfiguracion() {
         initComponents();
@@ -290,10 +291,7 @@ public class panelConfiguracion extends javax.swing.JPanel {
     }//GEN-LAST:event_select_reportActionPerformed
     
     private void updatecoman(){
-        
-        
-        String comando ="";
-        
+        comando = "";
         String salida = this.jTextField1.getText();
         
         String itemSeleccionado = (String) select_report.getSelectedItem();
@@ -337,16 +335,6 @@ public class panelConfiguracion extends javax.swing.JPanel {
         comando += select.substring(0,select.length()-1);
         }
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         itemSeleccionado = (String) select_ouput.getSelectedItem();
         switch (itemSeleccionado) {
             case "JSON":
@@ -360,7 +348,7 @@ public class panelConfiguracion extends javax.swing.JPanel {
                 break;
         }  
         
-        System.out.println("comando : " + comando);
+        
         
     }
     
