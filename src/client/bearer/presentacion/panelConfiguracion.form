@@ -210,7 +210,7 @@
               <StringArray count="3">
                 <StringItem index="0" value="Ninguna"/>
                 <StringItem index="1" value="JSON"/>
-                <StringItem index="2" value="CVS"/>
+                <StringItem index="2" value="HTML"/>
               </StringArray>
             </Property>
           </Properties>

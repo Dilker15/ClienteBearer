@@ -24,6 +24,7 @@ public class panelConfiguracion extends javax.swing.JPanel {
     public static final String NINGUNO = "Ninguna";
     public String pathOfFile;
     public String comando = "";
+    public String path_f = ""; 
     
     public panelConfiguracion() {
         initComponents();
@@ -104,7 +105,7 @@ public class panelConfiguracion extends javax.swing.JPanel {
             }
         });
 
-        select_ouput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguna", "JSON", "CVS" }));
+        select_ouput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguna", "JSON", "HTML" }));
         select_ouput.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 select_ouputItemStateChanged(evt);
@@ -292,6 +293,7 @@ public class panelConfiguracion extends javax.swing.JPanel {
     
     private void updatecoman(){
         comando = "";
+        path_f = "";
         String salida = this.jTextField1.getText();
         
         String itemSeleccionado = (String) select_report.getSelectedItem();
@@ -335,21 +337,24 @@ public class panelConfiguracion extends javax.swing.JPanel {
         comando += select.substring(0,select.length()-1);
         }
         
+        String s;
         itemSeleccionado = (String) select_ouput.getSelectedItem();
         switch (itemSeleccionado) {
             case "JSON":
-                comando += " --format json output --output "+salida+"/result-"+LocalDateTime.now()+".json";
+                s = salida+"/result-"+LocalDateTime.now()+".json";
+                comando += " --format json --output "+s;           
                 break;
-            case "CVS":
-                comando += " --format cvs output "+salida+"/"+LocalDateTime.now()+".cvs";
+            case "HTML":
+                s = salida+"/result-"+LocalDateTime.now()+".html";
+                comando += " --format html --output " +s;
                 break;
             default:
                 comando += "";
+                s = "";
                 break;
         }  
-        
-        
-        
+        path_f = s;
+                  
     }
     
     private void select_scanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_select_scanActionPerformed
