@@ -152,7 +152,7 @@ public class Menu extends javax.swing.JFrame {
     private void inicioLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inicioLabelMouseClicked
  
         inicio.comando_config = config.comando;
-        
+        inicio.path_f = config.path_f;
           inicioLabel.setForeground(Color.BLUE);
           confiLabel.setForeground(Color.BLACK);
           
