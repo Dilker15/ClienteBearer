@@ -13,6 +13,10 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 /**
  *
  * @author hp
@@ -24,11 +28,14 @@ public class panelInicio extends javax.swing.JPanel {
      */
     private String path;
     public String comando_config = "";
+    public String path_f = "";
     
     public panelInicio() {
         
         initComponents();
-        this.setSize(450,450);       
+        this.setSize(450,450);
+        this.btn_firefox.setVisible(false);
+        this.barProgress.setVisible(false);
     }
 
 
@@ -48,6 +55,7 @@ public class panelInicio extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         txt_ruta = new javax.swing.JLabel();
         barProgress = new javax.swing.JProgressBar();
+        btn_firefox = new javax.swing.JButton();
 
         textsalida.setEditable(false);
         textsalida.setColumns(20);
@@ -77,10 +85,20 @@ public class panelInicio extends javax.swing.JPanel {
         txt_ruta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         txt_ruta.setText("ruta:");
 
+        btn_firefox.setText("ver firefox");
+        btn_firefox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_firefoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 23, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,13 +109,12 @@ public class panelInicio extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(240, 240, 240))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 23, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_firefox)
+                .addGap(18, 18, 18)
                 .addComponent(barProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -110,10 +127,11 @@ public class panelInicio extends javax.swing.JPanel {
                 .addComponent(btn_select)
                 .addGap(33, 33, 33)
                 .addComponent(btn_procesar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(barProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_firefox, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(barProgress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -189,27 +207,13 @@ public class panelInicio extends javax.swing.JPanel {
                         output[0] = "Error al ejecutar el escaneo: " + e.getMessage();
                     }
                     mostrarResultado(output[0]);
+                    openfirefox();
                 }
             };
 
             
             worker.execute();
 
-            
-            int delay = 500; // milisegundos
-            javax.swing.Timer timer = new javax.swing.Timer(delay, new java.awt.event.ActionListener() {
-                private int value = 0; 
-
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    if (textsalida.getText().trim().isEmpty()) {
-                        value += 4;
-                        barProgress.setValue(Math.min(value, barProgress.getMaximum()));
-                    } else {
-                        ((javax.swing.Timer) e.getSource()).stop();  
-                    }
-                }
-            });
             //timer.start();
             
         } catch (Exception e) {
@@ -217,11 +221,41 @@ public class panelInicio extends javax.swing.JPanel {
             mostrarResultado(output[0]);
         }
     } else {
-        output[0] = "Seleccion proyecto Para Analizar";
+         output[0] = "Seleccion proyecto Para Analizar";
+         
         mostrarResultado(output[0]);
+        
     }
+       
     }//GEN-LAST:event_btn_procesarActionPerformed
 
+    private void btn_firefoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_firefoxActionPerformed
+
+        this.openfirefox();
+    }//GEN-LAST:event_btn_firefoxActionPerformed
+    private void openfirefox(){
+        
+        if(path_f != ""){
+            this.btn_firefox.setVisible(true);
+            String pathToBrowser = "firefox"; // Ruta al ejecutable del navegador
+            List<String> command = new ArrayList<>();
+            command.add(pathToBrowser);
+            command.add(path_f);
+
+            ProcessBuilder pb = new ProcessBuilder(command);
+            pb.redirectErrorStream(true);
+
+            try {
+                pb.start();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }else{
+            this.btn_firefox.setVisible(false);
+            System.out.println("No existe documento para abrir");
+        }
+        
+    }
     
     public void mostrarResultado(String cadena){
         
@@ -239,6 +273,7 @@ public class panelInicio extends javax.swing.JPanel {
     
     
     public String escanearProyecto(List<String>lista)throws Exception{ // LISTA COMANDOS
+        this.barProgress.setVisible(true);
         ProcessBuilder pb = new ProcessBuilder(lista);  // AGREGAR MAS COMANDO A LA LISTA.
         System.out.println("EStoy en el escanear luego del hilo");
         pb.redirectErrorStream(true);   
@@ -258,7 +293,7 @@ public class panelInicio extends javax.swing.JPanel {
                 if(line.indexOf("%")!=-1){
                     this.barProgress.setValue(Integer.parseInt(m.group()));
                 }
-                System.out.println(m.group());
+                System.out.println(line);
             }
             
             
@@ -266,13 +301,15 @@ public class panelInicio extends javax.swing.JPanel {
             result+=line+"\n";
             
         }
-                    
+       this.barProgress.setVisible(false);
+       this.barProgress.setValue(0);
     return result;
     
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar barProgress;
+    private javax.swing.JButton btn_firefox;
     private javax.swing.JButton btn_procesar;
     private javax.swing.JButton btn_select;
     private javax.swing.JLabel jLabel1;
