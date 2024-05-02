@@ -10,8 +10,12 @@ import javax.swing.*;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
@@ -31,6 +35,7 @@ public class panelInicio extends javax.swing.JPanel {
         initComponents();
         this.setSize(450,450);
         this.btn_firefox.setVisible(false);
+        this.barProgress.setVisible(false);
     }
 
 
@@ -49,6 +54,7 @@ public class panelInicio extends javax.swing.JPanel {
         btn_procesar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txt_ruta = new javax.swing.JLabel();
+        barProgress = new javax.swing.JProgressBar();
         btn_firefox = new javax.swing.JButton();
 
         textsalida.setEditable(false);
@@ -93,23 +99,24 @@ public class panelInicio extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 23, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 819, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btn_procesar, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(240, 240, 240))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_firefox)
+                .addGap(18, 18, 18)
+                .addComponent(barProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(btn_procesar, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(29, 29, 29))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(btn_select, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(240, 240, 240)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,10 +127,11 @@ public class panelInicio extends javax.swing.JPanel {
                 .addComponent(btn_select)
                 .addGap(33, 33, 33)
                 .addComponent(btn_procesar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(btn_firefox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_firefox, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(barProgress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -170,37 +178,55 @@ public class panelInicio extends javax.swing.JPanel {
     }
 
     private void btn_procesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_procesarActionPerformed
-
-       
-        String output = "";
-        if(this.path !=null){
+ final String[] output = new String[1];
+    if (this.path != null) {
+        try {
+            List<String> lista = new LinkedList<>();
+            lista.add("bearer");
+            lista.add("scan");  // comando básico para escanear
+            lista.add(this.path);
             
-            try{
-                // se tienen que llenar con un for todos los comandos de conf q se agreguen
-                // --report privacy --scanner=sast --severity low --format json output --output /home/ortiz/Documents/result-2024-04-22T14:38:17.003800710.json
-                    List<String>lista = new LinkedList();
-                    lista.add("bearer");
-                    lista.add("scan");          // comando basicos para escanear 
-                    lista.add(this.path);
-                    
-                    String[] partes = comando_config.split("\\s+");
-                    for (String parte : partes) {
-                        lista.add(parte);
-                    }
-                   
-                    output=this.escanearProyecto(lista);
-                    
-                    
-            }catch(Exception e){
-                
-                    System.out.print("El proyecto seleccionado no se encuentra contemplado para el uso de bearer" + e.getMessage());
+            String[] partes = comando_config.split("\\s+");
+            for (String parte : partes) {
+                lista.add(parte);
             }
-        }else{
-            output="Seleccion proyecto Para Analizar";
+
+            // Ejecutar el escaneo en un hilo separado
+            SwingWorker<String, Integer> worker = new SwingWorker<String, Integer>() {
+                @Override
+                protected String doInBackground() throws Exception {
+                    return escanearProyecto(lista);
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        // Obtener el resultado del escaneo
+                        output[0] = get();
+                    } catch (Exception e) {
+                        output[0] = "Error al ejecutar el escaneo: " + e.getMessage();
+                    }
+                    mostrarResultado(output[0]);
+                    openfirefox();
+                }
+            };
+
+            
+            worker.execute();
+
+            //timer.start();
+            
+        } catch (Exception e) {
+            output[0] = "El proyecto seleccionado no se encuentra contemplado para el uso de bearer: " + e.getMessage();
+            mostrarResultado(output[0]);
         }
+    } else {
+         output[0] = "Seleccion proyecto Para Analizar";
          
-        this.openfirefox();
-        mostrarResultado(output);
+        mostrarResultado(output[0]);
+        
+    }
+       
     }//GEN-LAST:event_btn_procesarActionPerformed
 
     private void btn_firefoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_firefoxActionPerformed
@@ -247,23 +273,42 @@ public class panelInicio extends javax.swing.JPanel {
     
     
     public String escanearProyecto(List<String>lista)throws Exception{ // LISTA COMANDOS
-        
+        this.barProgress.setVisible(true);
         ProcessBuilder pb = new ProcessBuilder(lista);  // AGREGAR MAS COMANDO A LA LISTA.
+        System.out.println("EStoy en el escanear luego del hilo");
         pb.redirectErrorStream(true);   
         Process process = pb.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line;
         String result="";
+      
+        
         while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+            //System.out.println(line);
+            
+            String []datos=line.split("%");
+            Pattern p = Pattern.compile("\\d+",Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(datos[0]);
+            while(m.find()){
+                if(line.indexOf("%")!=-1){
+                    this.barProgress.setValue(Integer.parseInt(m.group()));
+                }
+                System.out.println(line);
+            }
+            
+            
+            
             result+=line+"\n";
+            
         }
-                    
+       this.barProgress.setVisible(false);
+       this.barProgress.setValue(0);
     return result;
     
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar barProgress;
     private javax.swing.JButton btn_firefox;
     private javax.swing.JButton btn_procesar;
     private javax.swing.JButton btn_select;
